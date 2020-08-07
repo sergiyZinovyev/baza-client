@@ -1,0 +1,10 @@
+<form class="" [formGroup]="selectListForm" >
+    <mat-form-field class="full-width">
+        <mat-select [placeholder]="placeholder" formControlName="selectList">
+            <ng-container *ngFor="let item of list">
+                <mat-option [style.fontSize.px]=12 value='{{item.id}}'>{{item.name}}</mat-option>
+            </ng-container>
+        </mat-select> 
+    </mat-form-field>
+</form> 
+

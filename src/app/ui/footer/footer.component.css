@@ -1,0 +1,18 @@
+.author{
+    padding-bottom: 2px;
+    font-size: 0.7rem;
+    color: rgb(161, 161, 161);
+    background-color: #343a40;
+}
+
+.nondecore{
+    text-decoration: none;
+}
+a.nondecore:active,
+a.nondecore {
+  text-decoration: none;
+  color: inherit;
+}
+a.nondecore:hover{
+    color: white;  
+}

@@ -1,0 +1,6 @@
+.main-container{
+    background-image: url(https://visitors.galexpo.com.ua:3000/static/db/backDB.png);
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: top center;
+}

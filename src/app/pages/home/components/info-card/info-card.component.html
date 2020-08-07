@@ -1,0 +1,12 @@
+<div class="card m-3 flex-column justify-content-between" cdkDrag>
+    <div class="">
+        <div class="card-name mb-2" cdkDragHandle>{{name}}</div>
+        <div class="card-content">{{description}}</div>
+    </div>
+    <div *ngIf = 'list'>
+        <app-input-card [list]="list" [placeholder]="placeholder" (selected)="selected($event)"></app-input-card>
+    </div>
+    <div class="">
+        <button mat-raised-button color="primary" class="my-btn btn-block py-0" (click)='getItemMenu()'>Вхід</button> 
+    </div>
+</div>

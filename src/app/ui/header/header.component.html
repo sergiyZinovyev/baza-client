@@ -1,0 +1,27 @@
+<nav class="navbar navbar-dark bg-dark justify-content-between text-info py-1 pr-1 shadow-sm fixed-top">
+            
+    <div class="d-flex">
+        <div class='d-flex align-items-center'>
+            <div>
+                <div class="baza">BAZA 2.0</div>
+                <!-- <div class="baza-v">0.6.6</div> --> 
+                <div class="baza-v">devmode</div>
+            </div>
+            
+        </div>
+          
+        <button mat-icon-button [matMenuTriggerFor]="menu" class="mx-2 font-weight-bold"><mat-icon>menu</mat-icon></button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)='getItemMenu("home")'>Головна</button>
+            <button mat-menu-item (click)='getItemMenu("companies")'>База фірм</button>
+            <button mat-menu-item (click)='getItemMenu("visitors")'>База відвідувачів</button>
+            <button mat-menu-item (click)='getItemMenu("plahty")'>Плахти</button>
+            <button mat-menu-item (click)='getItemMenu("visexhibs")'>Відвідувачі виставок</button>
+            <button mat-menu-item (click)='getItemMenu("mail")'>Пошта</button>
+        </mat-menu>
+    </div>
+    <div>
+        <span class="baza">{{user}}</span> 
+        <button mat-button class="mx-2" (click)='exit()'>вихід <mat-icon>exit_to_app</mat-icon></button>
+    </div>
+</nav>

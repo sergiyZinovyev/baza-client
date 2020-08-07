@@ -1,0 +1,11 @@
+.title{
+    font-size: 2rem;
+}
+.baza{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.card-container{
+    max-width: 1400px;
+    margin: auto;
+}

@@ -5,7 +5,19 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.card-container{
+.cards-container{
     max-width: 1400px;
     margin: auto;
+}
+
+.card-container{
+    min-width: 400px;
+    max-width: 400px;
+}
+
+@media screen and (max-device-width:480px){
+    .card-container{
+        min-width: 350px;
+        max-width: 350px;
+    }
 }

@@ -1,9 +1,9 @@
 <div class='container-fluid d-flex justify-content-center pt-5'><h1 class="title">Welcome to <span class="baza">BAZA 2.0</span></h1></div> 
 
-<div class="card-container d-flex justify-content-center flex-wrap">
+<div class="cards-container d-flex justify-content-center flex-wrap">
 
     <ng-container *ngFor="let card of cards">
-        <app-info-card 
+        <app-info-card class="card-container"
             [name]="card.name"
             [description]="card.description" 
             [link]="card.link"
@@ -13,5 +13,5 @@
         </app-info-card>
     </ng-container>
     
-</div>
+</div> 
 

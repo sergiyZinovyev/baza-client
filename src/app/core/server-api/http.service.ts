@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
 import { catchError, map, retry} from 'rxjs/operators';
+import { StorageService } from '../storage'
  
 @Injectable()
 export class HttpService {
@@ -11,17 +12,24 @@ export class HttpService {
   errMessages: string[] = [];
   getErrMessages: Subject<string> = new Subject();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private storageService: StorageService,
+  ) { }
+
+  private getAuth() {
+    return `login=${this.storageService.getItemStorage('login')}&password=${this.storageService.getItemStorage('password')}`
+  }
 
   get(prop: string): Observable<any>{
-    return this.http.get(`${this.dbUrl}/${prop}`)
+    return this.http.get(`${this.dbUrl}/${prop}?${this.getAuth()}`)
       .pipe(
         catchError(this.handleError<any>(`get/${prop}`, 'Error'))
       );
   }
    
   post(body, prop: string): Observable<any>{
-    return this.http.post(`${this.dbUrl}/${prop}`, body) 
+    return this.http.post(`${this.dbUrl}/${prop}?${this.getAuth()}`, body) 
       .pipe(
         catchError(this.handleError<any>(`post/${prop}`, 'Error')) 
       );  

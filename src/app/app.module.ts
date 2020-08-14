@@ -13,12 +13,14 @@ import {MaterialModule} from './core/material/material.module';
 import { ServerApiModule } from './core/server-api';
 import { StorageModule } from './core/storage';
 import { GuardsModule } from './core/guards';
+import {LibModule} from './core/lib'
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';
+import { ModalsModule } from './ui/modals';
  
- 
+  
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +38,9 @@ import { FooterComponent } from './ui/footer/footer.component';
     // VisitorsModule,
     ServerApiModule,
     StorageModule,
-    GuardsModule
+    GuardsModule,
+    ModalsModule,
+    LibModule
   ],
   providers: [],
   bootstrap: [AppComponent]

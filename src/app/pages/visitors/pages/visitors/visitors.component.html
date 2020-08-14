@@ -1,1 +1,41 @@
-<p>visitors works!</p>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between sticky" [style.color]="color">
+        <span class="ml-5 pt-2"><strong>{{name}}</strong></span>
+
+        <!-- dashboard -->
+        <div class="d-flex">
+
+            <button 
+                mat-icon-button 
+                [style.color]="color" 
+                aria-label="Example icon-button with a heart icon" 
+                [matMenuTriggerFor]="menu">
+                <mat-icon>add_box</mat-icon>
+            </button>
+                <mat-menu #menu="matMenu" xPosition="after" yPosition="below">
+                    <ng-container *ngFor='let item of keyData'>
+                        <button mat-menu-item (click)='addColumn(item)'>{{item}}</button>
+                    </ng-container>
+                </mat-menu>
+
+
+            <button mat-icon-button [style.color]="color" aria-label="Example icon-button with a heart icon" [matMenuTriggerFor]="menu2">
+                <mat-icon>indeterminate_check_box</mat-icon>
+            </button>
+                <mat-menu #menu2="matMenu" xPosition="after" yPosition="below">
+                    <ng-container *ngFor='let item of displayedColumns'>
+                        <button mat-menu-item (click)='removeColumn(item)'>{{item}}</button>
+                    </ng-container>
+                </mat-menu>
+
+        
+        </div>
+    </div>
+
+    <div class=''>
+        <app-baza-table 
+            [visitors]='visitors' 
+            [color]='color'>
+        </app-baza-table>
+    </div>
+</div>

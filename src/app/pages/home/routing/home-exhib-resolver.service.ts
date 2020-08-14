@@ -13,7 +13,7 @@ export class HomeExhibResolverService implements Resolve<any> {
     private cardService: CardService,
     private httpService: HttpService
   ) { }
- 
+  
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot

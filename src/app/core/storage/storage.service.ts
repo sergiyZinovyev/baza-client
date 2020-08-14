@@ -7,7 +7,7 @@ export class StorageService {
   storage: Subject<Object> = new Subject();
 
   constructor() { }
-
+ 
   setStorage(loginData): void{
     localStorage.setItem('login', loginData.name);
     localStorage.setItem('user', loginData.realname);

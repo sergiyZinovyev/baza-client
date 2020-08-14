@@ -1,0 +1,10 @@
+.spinner {
+    background: rgba(32, 32, 32, 0.781);
+    border-radius: 20px;
+}
+
+.spinner-colour ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #ffffff91;
+}
+
+

@@ -50,7 +50,7 @@ export class AuthService {
       }
     })
   }
- 
+  
   login(userData: IUserData){
     return new Promise((resolve, reject) => this.getLogin(userData)
       .then(data => this.catchError(data))

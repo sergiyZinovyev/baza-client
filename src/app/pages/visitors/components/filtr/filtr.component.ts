@@ -20,7 +20,7 @@ export class FiltrComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.column, this.tableData)
+    //console.log(this.column, this.tableData)
   }
 
   filterController(filterValue, fild){

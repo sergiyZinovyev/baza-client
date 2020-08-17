@@ -21,7 +21,7 @@ import { FiltrComponent } from './components/filtr/filtr.component';
     LibModule
   ],
   providers: [
-    VisitorsStorageService
+    VisitorsStorageService,
   ]
 })
 export class VisitorsModule { }

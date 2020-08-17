@@ -22,7 +22,6 @@ export class BazaTableComponent implements OnInit, OnChanges {
   @Input() color: string;
 
   private _visitors: {}[];
-
   @Input() get visitors(): {}[] {
     return this._visitors;
   } 
@@ -52,7 +51,7 @@ export class BazaTableComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
     let prop = Object.getOwnPropertyNames(this.visitors[0]);
     prop.unshift('select');
-    console.log("prop: ", prop);
+    //console.log("prop: ", prop);
     this.displayedColumns = prop;
     this.displayedColumns_f = this.displayedColumns.map(el => 'f_' + el);
     this.dataSource.data = this.visitors;

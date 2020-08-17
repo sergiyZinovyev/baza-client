@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve } from '@angular/router';
 import {Observable} from'rxjs';
 import {VisitorsStorageService} from '../shared/visitors-storage.service';
-import { Visitor } from '../shared/visitor'
+import { Visitor } from '../shared/visitor-model'
 import { HttpService } from '../../../core/server-api';
 import {map} from 'rxjs/operators';
 import {ModalsService} from '../../../ui/modals';
@@ -35,7 +35,7 @@ export class VisitorsResolverService implements Resolve<any> {
       const visitors = this.visitorsStorageService.visitors;
       if(visitors && visitors.length > 0) return resolve('OK');
       this.modalsService.spinnerOpen();
-      this.httpService.post({model: this.model}, 'visitors/getTable/visitors_create').pipe( 
+      this.httpService.post({model: this.model}, 'visitors/getTable/visitors').pipe( 
         map(vl => {
           if(vl === "Error") return reject({ngNavigationCancelingError: true})
           else return vl.map(obj => {

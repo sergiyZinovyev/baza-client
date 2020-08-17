@@ -73,6 +73,8 @@ findOdjInArrObj(array: any[], keyVal: string, val: any) {
       console.log(`field - ${field} in array is undefined`);
       return;
     }
+    // let index = array.findIndex(el => el[field] === val);
+    // if(index !== -1) return index;
     for (let i: number = 0; i < array.length; i++){
       if (array[i][field] == val){
         // console.log('field: ', field);

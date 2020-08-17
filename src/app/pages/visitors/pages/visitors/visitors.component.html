@@ -6,20 +6,27 @@
         <div class="d-flex">
 
             <button 
-                mat-icon-button 
-                [style.color]="color" 
-                aria-label="Example icon-button with a heart icon" 
+                mat-icon-button
+                matTooltip="Додати колонки"
+                [style.color]="!additionalColumns[0] ? '#a3a3a3' : color"
+                aria-label="Example icon-button with a heart icon"
+                [disabled]='!additionalColumns[0]'
                 [matMenuTriggerFor]="menu">
                 <mat-icon>add_box</mat-icon>
             </button>
                 <mat-menu #menu="matMenu" xPosition="after" yPosition="below">
-                    <ng-container *ngFor='let item of keyData'>
+                    <ng-container *ngFor='let item of additionalColumns'>
                         <button mat-menu-item (click)='addColumn(item)'>{{item}}</button>
                     </ng-container>
                 </mat-menu>
 
-
-            <button mat-icon-button [style.color]="color" aria-label="Example icon-button with a heart icon" [matMenuTriggerFor]="menu2">
+            <button 
+                mat-icon-button 
+                matTooltip="Відняти колонки"
+                [style.color]="!displayedColumns[0] ? '#a3a3a3' : color"
+                aria-label="Example icon-button with a heart icon" 
+                [disabled]='!displayedColumns[0]'
+                [matMenuTriggerFor]="menu2">
                 <mat-icon>indeterminate_check_box</mat-icon>
             </button>
                 <mat-menu #menu2="matMenu" xPosition="after" yPosition="below">

@@ -1,14 +1,15 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnChanges} from '@angular/core';
 import { VisitorsStorageService } from '../../shared/visitors-storage.service';
-import { Visitor } from '../../shared/visitor';
+import { Visitor, model } from '../../shared/visitor-model';
 import {LibService} from '../../../../core/lib';
+import {ModalsService} from '../../../../ui/modals';
 
 @Component({
   selector: 'app-visitors',
   templateUrl: './visitors.component.html',
   styleUrls: ['./visitors.component.css']
 })
-export class VisitorsComponent implements OnInit {
+export class VisitorsComponent implements OnInit, OnChanges {
 
   visitors: Visitor[] = [];
   name: string = 'База відвідувачів';
@@ -17,69 +18,45 @@ export class VisitorsComponent implements OnInit {
 
   displayedColumns: string[];
 
-  keyData = [
-    //'regnum',
-    // 'name',
-    // 'prizv',
-    //'namepovne',
-    'countryid',
-    'postindeks',
-    'regionid',
-    'city',
-    'address',
-    'postaddreses',
-    'telephon',
-    'pobatkovi',
-    'gender',
-    'm_robotu',
-    //'sferadij',
-    'posada',
-    'type',
-    'kompeten',
-    //'potvid',
-    //'email',
-    'datawnesenny ',
-    'datelastcor',
-    'rating',
-    'ins_user',
-    //'cellphone',
-    'userid',
-    'realname',
-    'reg_countryid',
-    'reg_regionid',
-    'country',
-    //'reg2_countryid',
-    //'reg2_regionid',
-    //'region',
-    'cityid',
-    'id_visitor',
-    //'visited_exhib',
-    //'sending'
-  ];
+  additionalColumns: string[];
 
   constructor(
+    private modalsService: ModalsService,
     private visitorsStorageService: VisitorsStorageService,
     private libService: LibService
   ) { }
  
+  ngOnChanges(): void {
+    
+  }
+
   ngOnInit(): void {
     this.visitorsStorageService.getVisitos.subscribe((vis: Visitor[]) => {
-      //this.visitors = vis;
+      this.modalsService.spinnerClose();
       this.visitors = Object.assign([], vis);
       this.displayedColumns = Object.getOwnPropertyNames(this.visitors[0]);
+      this.displayedColumns.splice(this.libService.checkArrIdVal(this.displayedColumns, 'regnum'), 1);
+      this.additionalColumns = this.setAdditionalColumns(this.displayedColumns)
     })
   }
 
-  removeColumn(item){
-    console.log(item);
-    this.visitorsStorageService.delField(item);
-    this.keyData.push(item);
+  setAdditionalColumns(displayedColumns: string[]): string[]{
+    let additionalColumns = [];
+    const columns = model.slice();
+    columns.forEach(column => {
+      if(!displayedColumns.includes(column) && column !== 'regnum') {
+        additionalColumns.push(column)
+      }
+    })
+    return additionalColumns
   }
 
-  addColumn(item){
-    console.log(item);
+  removeColumn(item: string): void{
+    this.visitorsStorageService.delField(item);
+  }
+
+  addColumn(item: string): void{
     this.visitorsStorageService.addField(item);
-    this.displayedColumns.splice(this.libService.checkArrIdVal(this.displayedColumns, item), 1);
   }
 
 

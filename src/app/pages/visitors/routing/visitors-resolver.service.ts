@@ -10,17 +10,6 @@ import {ModalsService} from '../../../ui/modals';
 @Injectable()
 export class VisitorsResolverService implements Resolve<any> {
 
-  model = {
-    regnum: true,
-    name: true,
-    prizv: true,
-    namepovne: true,
-    email: true,
-    cellphone: true,
-    password: true,
-    sending: true
-  }
-
   constructor(
     private visitorsStorageService: VisitorsStorageService,
     private httpService: HttpService,
@@ -31,11 +20,12 @@ export class VisitorsResolverService implements Resolve<any> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any>|Promise<any>|any {
+    const config = this.getResolvConfig(route.routeConfig.path);
     return new Promise((resolve, reject) => {
-      const visitors = this.visitorsStorageService.visitors;
+      const visitors = this.visitorsStorageService[config.data];
       if(visitors && visitors.length > 0) return resolve('OK');
       this.modalsService.spinnerOpen();
-      this.httpService.post({model: this.model}, 'visitors/getTable/visitors').pipe( 
+      this.httpService.post({model: config.model}, `visitors/getTable/${config.pass}`).pipe( 
         map(vl => {
           if(vl === "Error") return reject({ngNavigationCancelingError: true})
           else return vl.map(obj => {
@@ -43,7 +33,7 @@ export class VisitorsResolverService implements Resolve<any> {
           })
         })
       ).subscribe((data: Visitor[]) => {
-        if(data) this.visitorsStorageService.setVisitors(data);
+        if(data) this.visitorsStorageService[config.func](data);
         this.modalsService.spinnerClose();
         resolve('OK')
       })
@@ -52,6 +42,39 @@ export class VisitorsResolverService implements Resolve<any> {
       throw(err)
     });
 
+  }
+
+  private getResolvConfig(path: string){
+    let resolveConfig = {
+      func: 'setVisitors',
+      pass: 'visitors',
+      data: 'visitors',
+      model: {
+        regnum: true,
+        name: true,
+        prizv: true,
+        namepovne: true,
+        email: true,
+        cellphone: true,
+        password: true,
+        sending: true
+      }
+    }
+    switch (path) {
+      case 'edited':
+        resolveConfig.data = 'visitorsEdit';
+        resolveConfig.func = 'setVisitorsEdit';
+        resolveConfig.pass = 'visitors_edit'
+        break;
+      case 'created':
+        resolveConfig.data = 'visitorsCreate';
+        resolveConfig.func = 'setVisitorsCreate';
+        resolveConfig.pass = 'visitors_create'
+        break;
+      default:
+        break;
+    }
+    return resolveConfig
   }
 
 }

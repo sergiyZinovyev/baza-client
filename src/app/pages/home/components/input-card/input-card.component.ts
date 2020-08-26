@@ -10,7 +10,7 @@ export class InputCardComponent implements OnInit {
 
   @Input() placeholder: string;
 
-  private _list: {}[] = [{id: -1, name: "Обрати всі"}];
+  private _list: {}[] = [{id: '', name: ""}];
 
   @Input() set list(addingList: {}[]){
     this._list = this._list.concat(addingList)
@@ -20,7 +20,7 @@ export class InputCardComponent implements OnInit {
   @Output() selected = new EventEmitter<Number>();
   
   selectListForm = new FormGroup({
-    selectList: new FormControl('-1')
+    selectList: new FormControl('')
   });
 
   constructor() {

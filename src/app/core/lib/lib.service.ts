@@ -176,26 +176,26 @@ findOdjInArrObj(array: any[], keyVal: string, val: any) {
   
 // ----------------------------------------------------------------------------------------------------------
 
-  // керуємо масивом даних для фільтрації (filterData - масив даних, value - нове значення, fildName - поле для фільтрації)
-  // повертає новий масив даних
-  addFiltrData(filterData: {filterValue: any, fild: string}[], value: any, fildName: string):{filterValue: any, fild: string}[]{
-    // перевіряємо чи існує таке поле та повертаємо його номер в масиві 
-    let i = this.checkArrOfObjIdVal(filterData, fildName)
-    if(i >= 0){
-      console.log('поле існує під номером '+i);
-      filterData[i].filterValue = value
-    }
-    else{
-      console.log('поле не існує!');
-      filterData.push({
-        fild: fildName,
-        filterValue: value 
-      })
-    }
+  // // керуємо масивом даних для фільтрації (filterData - масив даних, value - нове значення, fildName - поле для фільтрації)
+  // // повертає новий масив даних
+  // addFiltrData(filterData: {filterValue: any, fild: string}[], value: any, fildName: string):{filterValue: any, fild: string}[]{
+  //   // перевіряємо чи існує таке поле та повертаємо його номер в масиві 
+  //   let i = this.checkArrOfObjIdVal(filterData, fildName)
+  //   if(i >= 0){
+  //     console.log('поле існує під номером '+i);
+  //     filterData[i].filterValue = value
+  //   }
+  //   else{
+  //     console.log('поле не існує!');
+  //     filterData.push({
+  //       fild: fildName,
+  //       filterValue: value 
+  //     })
+  //   }
 
-    console.log('filterData:', filterData);
-    return filterData;
-  }
+  //   console.log('filterData:', filterData);
+  //   return filterData;
+  // }
   
 // ----------------------------------------------------------------------------------------------------------
 

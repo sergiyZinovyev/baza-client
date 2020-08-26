@@ -1,4 +1,4 @@
-<!-- <div class="container-fluid">
+<div class="container-fluid">
 
     <div class="dashboard-table">
         <app-dashboard-table
@@ -6,16 +6,16 @@
             [name]='name'
             [additionalColumns]='additionalColumns'
             [displayedColumns]='displayedColumns'
-            [ButtonColumnDirect]=true
-            [ButtonClearFilter]=true
+            [buttonColumnDirect]='buttonColumnDirect'
+            [buttonClearFilter]='buttonClearFilter'
             (onClearFilter)='clearFilter()'
-            (onAddColumn)='addColumn($event)'
-            (onRemoveColumn)='removeColumn($event)'
+            (onAddColumn)='columnDirect($event, "add")'
+            (onRemoveColumn)='columnDirect($event, "remove")'
             (onPassPage)='goToPage($event)'>
         </app-dashboard-table>
     </div>
-     
-    <div class=''> 
+          
+    <div class=''>
         <app-baza-table 
             [visitors]='dataSource' 
             [color]='color'
@@ -23,15 +23,6 @@
             [clearFilterData]='clearFilterData'
             (filter)='filterController($event)'>
         </app-baza-table>
-    </div> 
+    </div>
 
-</div> -->
-<app-page-table
-    [color]='color'
-    [name]='name'
-    [visitors]='visitors'
-    [model]='additionalColumns'
-    [buttonColumnDirect]=true
-    [buttonClearFilter]=true
-    (onColumnDirect)=columnDirect($event)>
-</app-page-table>
+</div>

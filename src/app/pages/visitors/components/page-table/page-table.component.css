@@ -1,0 +1,10 @@
+.dashboard-table {
+    position: sticky;
+    top: 48px;
+    left: 0;
+    bottom: 0px;
+    right: 0;
+    background-color: rgb(255, 255, 255);
+    z-index: 102;
+    /* height: 50px; */ 
+} 

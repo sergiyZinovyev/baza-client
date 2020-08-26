@@ -9,11 +9,11 @@ import { HomeModule } from './pages/home/home.module';
 import { VisitorsModule } from './pages/visitors/visitors.module';
 
 import { AppRoutingModule } from './app-routing.module';
-import {MaterialModule} from './core/material/material.module';
+import { MaterialModule } from './core/material/material.module';
 import { ServerApiModule } from './core/server-api';
 import { StorageModule } from './core/storage';
 import { GuardsModule } from './core/guards';
-import {LibModule} from './core/lib'
+import { LibModule } from './core/lib'
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './ui/header/header.component';
@@ -41,7 +41,7 @@ import { ModalsModule } from './ui/modals';
     GuardsModule,
     ModalsModule,
     LibModule
-  ],
+  ], 
   providers: [],
   bootstrap: [AppComponent]
 })

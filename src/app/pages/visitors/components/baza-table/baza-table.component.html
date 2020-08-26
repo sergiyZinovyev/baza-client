@@ -3,17 +3,22 @@
         [dataSource]="dataSource" 
         multiTemplateDataRows
         matSort
-        class="border">
+        class="">  
  
         <!-- філтр -->  
         <ng-container matColumnDef="{{column}}" *ngFor="let column of displayedColumns_f">
             <th mat-header-cell *matHeaderCellDef class="filtr">
 
                 <!-- filter input -->
-                <app-filtr [column]='column' [tableData]="visitors" (dataSource)='filterRow($event)'></app-filtr>
+                <app-filtr 
+                    [column]='column' 
+                    [filterDataMap]="filterDataMap()" 
+                    [clearFilterData]='clearFilterData'
+                    (data)='filterController($event, column.slice(2))'>
+                </app-filtr>
                 <!-- <ng-container *ngIf='column !== "f_select"'>
                     <div class="">
-                        <input 
+                        <input  
                             id='{{column}}'
                             (keyup)="filterController($event.target.value, column.slice(2))" 
                             class="filtr"
@@ -110,9 +115,7 @@
         </ng-container> -->
         
         <!-- додаткові колонки -->
-        
-        <ng-container matColumnDef="select">
-            
+        <ng-container matColumnDef="select">  
             <th mat-header-cell *matHeaderCellDef class="select">
               <mat-checkbox (change)="$event ? masterToggle($event) : null"
                             [checked]="selection.hasValue() && isAllSelected()"
@@ -143,5 +146,5 @@
         <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
     </table>
 
-    <mat-paginator [pageSizeOptions]="[15, 30, 50, 100]" showFirstLastButtons></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[14, 30, 50, 100]" showFirstLastButtons></mat-paginator>
 

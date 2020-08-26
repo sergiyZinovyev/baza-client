@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   
   ngOnInit(): void {
   }
- 
+  
   getItemMenu(item: string): void{
     this.cardService.routing(item);
   } 

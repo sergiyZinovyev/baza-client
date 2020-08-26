@@ -9,15 +9,21 @@
             </div>
             
         </div>
-          
+           
         <button mat-icon-button [matMenuTriggerFor]="menu" class="mx-2 font-weight-bold"><mat-icon>menu</mat-icon></button>
-        <mat-menu #menu="matMenu">
+        <mat-menu #menu="matMenu" class="customize-menu">
             <button mat-menu-item (click)='getItemMenu("home")'>Головна</button>
             <button mat-menu-item (click)='getItemMenu("companies")'>База фірм</button>
-            <button mat-menu-item (click)='getItemMenu("visitors")'>База відвідувачів</button>
+            <button mat-menu-item (click)='getItemMenu("visitors")' [matMenuTriggerFor]="visitors">База відвідувачів</button>
             <button mat-menu-item (click)='getItemMenu("plahty")'>Плахти</button>
             <button mat-menu-item (click)='getItemMenu("visexhibs")'>Відвідувачі виставок</button>
             <button mat-menu-item (click)='getItemMenu("mail")'>Пошта</button>
+        </mat-menu>
+ 
+        <mat-menu #visitors="matMenu" class="customize-visitors">
+            <button mat-menu-item (click)='getItemMenu("visitors")'>База відвідувачів</button>
+            <button mat-menu-item (click)='getItemMenu("visitors/edited")'>Заявки на зміну</button>
+            <button mat-menu-item (click)='getItemMenu("visitors/created")'>Заявки на внесення</button>
         </mat-menu>
     </div>
     <div>

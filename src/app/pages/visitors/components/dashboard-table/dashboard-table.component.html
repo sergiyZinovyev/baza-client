@@ -1,0 +1,65 @@
+<div class="d-flex justify-content-between" [style.color]="color">
+
+    <div class="d-flex align-items-center pl-3">
+        <button 
+            mat-button
+            matTooltip="Інша таблиця"
+            [matMenuTriggerFor]="menu3">
+            <span><strong>{{name}}</strong></span>
+            <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+            <mat-menu #menu3="matMenu" xPosition="after" yPosition="below">
+                <ng-container *ngFor='let page of pages'>
+                    <button mat-menu-item (click)='passPage(page.link)'>{{page.name}}</button>
+                </ng-container>
+            </mat-menu>
+    </div>
+ 
+    <!-- dashboard --> 
+    <div class="d-flex">
+
+        <ng-container *ngIf='buttonClearFilter'>
+            <button 
+                mat-icon-button 
+                matTooltip="очистити фільтр" 
+                aria-label="Example icon-button with a heart icon" 
+                (click)='clearFilter()'>
+                <mat-icon>layers_clear</mat-icon>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf='buttonColumnDirect'>
+            <button 
+                mat-icon-button
+                matTooltip="Додати колонки"
+                [style.color]="!additionalColumns[0] ? '#a3a3a3' : ''"
+                aria-label="Example icon-button with a heart icon"
+                [disabled]='!additionalColumns[0]'
+                [matMenuTriggerFor]="menu">
+                <mat-icon>add_box</mat-icon>
+            </button>
+                <mat-menu #menu="matMenu" xPosition="after" yPosition="below">
+                    <ng-container *ngFor='let item of additionalColumns'>
+                        <button mat-menu-item (click)='addColumn(item)'>{{item}}</button>
+                    </ng-container>
+                </mat-menu>
+
+            <button 
+                mat-icon-button 
+                matTooltip="Відняти колонки"
+                [style.color]="!displayedColumns[0] ? '#a3a3a3' : ''"
+                aria-label="Example icon-button with a heart icon" 
+                [disabled]='!displayedColumns[0]'
+                [matMenuTriggerFor]="menu2">
+                <mat-icon>indeterminate_check_box</mat-icon>
+            </button>
+                <mat-menu #menu2="matMenu" xPosition="after" yPosition="below">
+                    <ng-container *ngFor='let item of displayedColumns'>
+                        <button mat-menu-item (click)='removeColumn(item)'>{{item}}</button>
+                    </ng-container>
+                </mat-menu>
+        </ng-container>
+
+    </div>
+</div>
+ 

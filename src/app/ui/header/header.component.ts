@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
       if(data['user'] !== this.user) this.user = this.storageService.getItemStorage('user')
     })
   }
- 
+  
   getItemMenu(item: string): void{
     this.router.navigate([item]);
   }

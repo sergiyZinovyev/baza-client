@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'visitors', loadChildren: './pages/visitors/visitors.module#VisitorsModule', canLoad: [AuthGuard]},
   { path: '**', redirectTo: '/home', pathMatch: 'full' }
 ];
-       
+        
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

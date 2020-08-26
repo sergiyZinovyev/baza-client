@@ -2,7 +2,8 @@
     <div class="">
         <input 
             id='{{column}}'
-            (keyup)="filterController($event.target.value, column.slice(2))" 
+            [(ngModel)]="filterValue"
+            (keyup)="filterController($event.target.value)" 
             class="filtr"
             [style.background-color]="filterDataMap.includes(column.slice(2)) ? '#91919193' : '' ">
     </div>

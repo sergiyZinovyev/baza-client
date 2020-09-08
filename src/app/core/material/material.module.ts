@@ -15,12 +15,16 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
+import {MatExpansionModule} from '@angular/material/expansion';
+
+import { MatSelectFilterModule } from 'mat-select-filter';
    
 @NgModule({
   declarations: [],
   imports: [
     CommonModule
-  ],
+  ], 
   exports: [
     MatInputModule,
     MatFormFieldModule,
@@ -35,7 +39,10 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatPaginatorModule,
     MatSortModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSelectFilterModule,
+    MatAutocompleteModule,
+    MatExpansionModule
   ],
 })
 export class MaterialModule { }

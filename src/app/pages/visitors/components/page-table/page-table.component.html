@@ -8,20 +8,28 @@
             [displayedColumns]='displayedColumns'
             [buttonColumnDirect]='buttonColumnDirect'
             [buttonClearFilter]='buttonClearFilter'
+
+            [(buttonAddVisitor)]='buttonAddVisitor'
+            
             (onClearFilter)='clearFilter()'
             (onAddColumn)='columnDirect($event, "add")'
             (onRemoveColumn)='columnDirect($event, "remove")'
+            
             (onPassPage)='goToPage($event)'>
         </app-dashboard-table>
     </div>
-          
+           
     <div class=''>
         <app-baza-table 
-            [visitors]='dataSource' 
+            [visitors]='dataSource'
+            [visitor]='visitor'
             [color]='color'
             [filterData]='filterData'
             [clearFilterData]='clearFilterData'
-            (filter)='filterController($event)'>
+            (filter)='filterController($event)'
+            (idVisitor)='idVisitor($event)'
+            (subVisitor)='submitVisitor($event)'
+            (delVisitor)='deleteVisitor($event)'>
         </app-baza-table>
     </div>
 

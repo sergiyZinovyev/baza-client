@@ -10,15 +10,14 @@ export class InputCardComponent implements OnInit {
 
   @Input() placeholder: string;
 
-  private _list: {}[] = [{id: '', name: ""}];
-
+  private _list: {}[] = [];
   @Input() set list(addingList: {}[]){
-    this._list = this._list.concat(addingList)
+    this._list = addingList
   };
   get list(){return this._list}
   
   @Output() selected = new EventEmitter<Number>();
-  
+   
   selectListForm = new FormGroup({
     selectList: new FormControl('')
   });

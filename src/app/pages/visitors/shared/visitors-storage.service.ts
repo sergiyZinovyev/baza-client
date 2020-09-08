@@ -1,118 +1,93 @@
 import { Injectable } from '@angular/core';
-import { Visitor } from './visitor-model';
-import { HttpService } from '../../../core/server-api';
-import {Observable, from, of, Subject, BehaviorSubject, Subscription} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { Visitor, model, IConfigVisitorStorage } from './visitor-model';
+import {BehaviorSubject} from 'rxjs';
+import {take} from 'rxjs/internal/operators';
 import {LibService} from '../../../core/lib';
-import {ModalsService} from '../../../ui/modals';
+import {ServerApiService} from './server-api.service';
+
+export type IRouteConfigPath = 'visitors' | 'edited' | 'created';
 
 @Injectable()
 export class VisitorsStorageService {
 
-  visitors: Visitor[] = [];
-  getVisitors: BehaviorSubject<Visitor[]> = new BehaviorSubject(this.visitors);
-
-  visitorsEdit: Visitor[] = [];
-  getVisitorsEdit: BehaviorSubject<Visitor[]> = new BehaviorSubject(this.visitorsEdit);
-
-  visitorsCreate: Visitor[] = [];
-  getVisitorsCreate: BehaviorSubject<Visitor[]> = new BehaviorSubject(this.visitorsCreate);
-
-  constructor(
-    private modalsService: ModalsService,
-    private httpService: HttpService,
-    private libService: LibService
-  ) { }
+  visitors: BehaviorSubject<Visitor[]> = new BehaviorSubject([]);
+  visitorsEdit: BehaviorSubject<Visitor[]> = new BehaviorSubject([]);
+  visitorsCreate: BehaviorSubject<Visitor[]> = new BehaviorSubject([]);
  
-  setVisitors(visitorsData: Visitor[]): void{
-    this.visitors = visitorsData;
-    this.getVisitors.next(this.visitors);
-  }
-
-  setVisitorsEdit(visitorsData: Visitor[]): void{
-    this.visitorsEdit = visitorsData;
-    this.getVisitorsEdit.next(this.visitorsEdit);
-  }
-
-  setVisitorsCreate(visitorsData: Visitor[]): void{
-    this.visitorsCreate = visitorsData;
-    this.getVisitorsCreate.next(this.visitorsCreate);
-  }
-
-  delField(fieldName: string, data: string = 'visitors'): void{
-    if(fieldName === 'regnum') return;
-    const config = this.getVisitorsStorageConfig(data);
-    this[config.dataSubjectName].forEach((visitor: Visitor) => {
-      delete visitor[fieldName]
-    });
-    this[config.subject].next(this[config.dataSubjectName]);
-  }
-    
-  addField(field: string, data: string = 'visitors'){
-    const config = this.getVisitorsStorageConfig(data);
-    let index: number;
-    let newVisitors = [];
-    // console.time('big_operation_0');
-    // console.log('field: ',field);
-    let model = {
-      regnum: true
-    };
-    model[field] = true;
-    this.modalsService.spinnerOpen();
-    return new Promise((resolve, reject) => {
-    this.httpService.post({model: model}, `visitors/getTable/${config.pass}`).pipe( 
-      map(vl => {
-        if(vl === "Error") return reject(`Error in request ${config.pass}`)
-        return vl.map(obj => {
-          return new Visitor(obj)
-        })
-      })
-    ).subscribe((data: Visitor[]) => {
-      if(!data) return resolve()
-      // console.timeEnd('big_operation_0');
-      // console.log('new data: ', data);
-      // console.time('big_operation');
-      data.forEach(visitor => {
-        //врахувати, якщо index не знайдено
-        //можливо перевіряти перед тим довжину нового і існуючого масивів
-        //якщо не співпадає то ретарн
-        index = this.libService.checkArrOfObjIdValField(this[config.dataSubjectName], 'regnum', visitor['regnum']);
-        this[config.dataSubjectName][index][field] = visitor[field];
-        newVisitors.push(this[config.dataSubjectName][index]);
-        this[config.dataSubjectName].splice(index, 1)
-      });
-      this[config.dataSubjectName] = newVisitors;
-      //console.timeEnd('big_operation');
-      this[config.subject].next(this[config.dataSubjectName]);
-      resolve()
-    })
-    }).catch(err => {
-      console.log('addField error: ', err)
-      this.modalsService.spinnerClose();
-    });
-  }
-
-  private getVisitorsStorageConfig(dataName: string){
-    let config = {
-      subject: 'getVisitors',
-      dataSubjectName: 'visitors',
-      pass: 'visitors'
+  constructor(
+    private libService: LibService,
+    private serverApiService: ServerApiService,
+  ) { } 
+  
+  getVisitorsStorageConfig(routeConfigPath: string): IConfigVisitorStorage{
+    let config: IConfigVisitorStorage = {
+      subject: 'visitors',
+      model: {
+        regnum: true,
+        name: true,
+        prizv: true,
+        namepovne: true,
+        email: true,
+        cellphone: true,
+        // password: true,
+        // sending: true
+      }
     }
-    switch (dataName) {
-      case 'visitorsEdit':
-        config.dataSubjectName = 'visitorsEdit';
-        config.subject = 'getVisitorsEdit';
-        config.pass = 'visitors_edit';
+    switch (routeConfigPath) {
+      case 'edited':
+        config.subject = 'visitorsEdit';
         break;
-      case 'visitorsCreate':
-        config.dataSubjectName = 'visitorsCreate';
-        config.subject = 'getVisitorsCreate';
-        config.pass = 'visitors_create';
+      case 'created':
+        config.subject = 'visitorsCreate';
         break;
       default:
         break;
     }
     return config
+  }
+
+  setVisitors(visitorsData: Visitor[], subject: IConfigVisitorStorage['subject']): void{
+    this[subject].next(visitorsData);
+  }
+
+  columnDirect(event: {action: 'add' | 'remove', column: string}, routeConfigPath: IRouteConfigPath): void{
+    if(event.action === 'add') this.addField(event.column, routeConfigPath)
+    else this.delField(event.column, routeConfigPath);
+  }
+
+  private delField(fieldName: string, routeConfigPath: IRouteConfigPath): void{
+    if(fieldName === 'regnum') return;
+    const config = this.getVisitorsStorageConfig(routeConfigPath);
+    this[config.subject].pipe(take(1)).subscribe((subData: Visitor[]) => {
+      subData.forEach((visitor: Visitor) => {
+        delete visitor[fieldName]
+      });
+      this.setVisitors(subData, config.subject)
+    }) 
+  }
+ 
+  private addField(field: string, routeConfigPath: IRouteConfigPath): void{
+    const config = this.getVisitorsStorageConfig(routeConfigPath);
+    let index: number;
+    let newVisitors = [];
+    //console.time('big_operation_0');
+    config.model = {regnum: true};
+    config.model[field] = true;
+    this.serverApiService.getVisitors(config).subscribe((dataGetVisitors: Visitor[]) => {
+      //console.timeEnd('big_operation_0');
+      this[config.subject].pipe(take(1)).subscribe((subData: Visitor[]) => {
+        dataGetVisitors.forEach(visitor => {
+          //врахувати, якщо index не знайдено
+          //можливо перевіряти перед тим довжину нового і існуючого масивів
+          //якщо не співпадає то ретарн
+          index = this.libService.checkArrOfObjIdValField(subData, 'regnum', visitor['regnum']);
+          subData[index][field] = visitor[field];
+          newVisitors.push(subData[index]);
+          subData.splice(index, 1)
+        });
+        this.setVisitors(newVisitors, config.subject)
+      })
+    }, err => console.log('error: ', err))
   }
 
 }

@@ -9,9 +9,29 @@ tr.example-element-row:not(.example-expanded-row):hover {
 }
    
 tr.example-element-row:not(.example-expanded-row):active {
-    background: #91919193;
+    font-weight: 500;
 }
 
+.example-expanded-row{
+    font-weight: 500;
+    border-bottom:1px solid rgb(207, 207, 207);
+}
+
+tr.example-detail-row {
+    height: 0px !important;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    /* display: flex; */
+    margin-left: -24px;
+    margin-right: -24px;
+}
+ 
 .header {
     position: sticky;
     top: 89px;

@@ -2,8 +2,14 @@
     [color]='color'
     [name]='name'
     [visitors]='visitors'
+    [visitor]='visitor'
     [model]='additionalColumns'
     [buttonColumnDirect]=true
     [buttonClearFilter]=true
-    (onColumnDirect)=columnDirect($event)>
-</app-page-table>
+    (onColumnDirect)=columnDirect($event)
+    (getVisitor)=getVisitor($event)
+    (subVisitor)='submitVisitor($event)'
+    (delVisitor)='deleteVisitor($event)'>
+</app-page-table> 
+
+ 

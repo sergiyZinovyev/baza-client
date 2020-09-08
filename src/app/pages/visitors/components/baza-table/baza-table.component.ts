@@ -4,6 +4,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 //import { Visitor } from '../../shared/visitor';
 import {LibService} from '../../../../core/lib';
 import {FiltrService, IfilterData, IFilterControllerData} from '../../shared/filtr.service';
@@ -11,17 +12,25 @@ import {FiltrService, IfilterData, IFilterControllerData} from '../../shared/fil
 @Component({
   selector: 'app-baza-table',
   templateUrl: './baza-table.component.html',
-  styleUrls: ['./baza-table.component.css']
+  styleUrls: ['./baza-table.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('300ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class BazaTableComponent implements OnInit, OnChanges {
-
+ 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  //@Input() name: string;
+  @Input() visitor;
   @Input() color: string;
   @Input() filterData: IfilterData[] = [] // масив для фільтрації
   @Input() clearFilterData: boolean;
+  //@Input() countries: {}[];
 
   private _visitors: {}[];
   @Input() get visitors(): {}[] {
@@ -33,6 +42,11 @@ export class BazaTableComponent implements OnInit, OnChanges {
   }
 
   @Output() filter = new EventEmitter<IfilterData>();
+  @Output() idVisitor = new EventEmitter<number>();
+  @Output() delVisitor = new EventEmitter<number>();
+  @Output() subVisitor = new EventEmitter<any>();
+
+  expandetElementColor: string;
 
   arrOfCheckId = [];
 
@@ -43,13 +57,14 @@ export class BazaTableComponent implements OnInit, OnChanges {
   displayedColumns: string[];
   displayedColumns_f: string[];
 
+  expandedElement;
+
   constructor(
     private libService: LibService,
-    //private filtrService: FiltrService,
   ) { }
  
   ngOnChanges(): void {
-    //console.log('visitors2: ', this.visitors);
+    this.expandetElementColor = this.color + '65';
     if(this.visitors[0]){
       let prop = Object.getOwnPropertyNames(this.visitors[0]);
       prop.unshift('select');
@@ -59,10 +74,17 @@ export class BazaTableComponent implements OnInit, OnChanges {
     this.dataSource.data = this.visitors;
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    //console.log('clearFilterData: ', this.clearFilterData);
   }  
 
   ngOnInit(): void {
+  }
+
+  submitVisitor(eventData){
+    this.subVisitor.emit(eventData)
+  }
+
+  deleteVisitor(eventData){
+    this.delVisitor.emit(eventData)
   }
 
   filterController(filterValue: string, fild: string): void{
@@ -71,6 +93,11 @@ export class BazaTableComponent implements OnInit, OnChanges {
 
   filterDataMap(): string[]{
     return this.filterData.map(item => item.fild)
+  }
+
+  getId(id: number): void{
+    //console.log('expandedElement: ', this.expandedElement);
+    if(!this.expandedElement || this.expandedElement.regnum !== id) this.idVisitor.emit(id)
   }
 
   /** Whether the number of selected elements matches the total number of rows. */

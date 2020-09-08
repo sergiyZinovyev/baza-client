@@ -10,12 +10,12 @@
         </button>
             <mat-menu #menu3="matMenu" xPosition="after" yPosition="below">
                 <ng-container *ngFor='let page of pages'>
-                    <button mat-menu-item (click)='passPage(page.link)'>{{page.name}}</button>
+                    <button mat-menu-item [style.color]="color" class="mat-menu" (click)='passPage(page.link)'>{{page.name}}</button>
                 </ng-container>
             </mat-menu>
     </div>
  
-    <!-- dashboard --> 
+    <!-- dashboard -->  
     <div class="d-flex">
 
         <ng-container *ngIf='buttonClearFilter'>
@@ -25,6 +25,16 @@
                 aria-label="Example icon-button with a heart icon" 
                 (click)='clearFilter()'>
                 <mat-icon>layers_clear</mat-icon>
+            </button>
+        </ng-container>
+
+        <ng-container *ngIf='buttonAddVisitor'>
+            <button 
+                mat-icon-button 
+                matTooltip="додати відвідувача" 
+                aria-label="Example icon-button with a heart icon" 
+                (click)='addVisitor()'>
+                <mat-icon>person_add</mat-icon>
             </button>
         </ng-container>
 
@@ -40,10 +50,10 @@
             </button>
                 <mat-menu #menu="matMenu" xPosition="after" yPosition="below">
                     <ng-container *ngFor='let item of additionalColumns'>
-                        <button mat-menu-item (click)='addColumn(item)'>{{item}}</button>
+                        <button mat-menu-item [style.color]="color" class="mat-menu" (click)='addColumn(item)'>{{item}}</button>
                     </ng-container>
                 </mat-menu>
-
+ 
             <button 
                 mat-icon-button 
                 matTooltip="Відняти колонки"
@@ -55,7 +65,7 @@
             </button>
                 <mat-menu #menu2="matMenu" xPosition="after" yPosition="below">
                     <ng-container *ngFor='let item of displayedColumns'>
-                        <button mat-menu-item (click)='removeColumn(item)'>{{item}}</button>
+                        <button mat-menu-item [style.color]="color" class="mat-menu" (click)='removeColumn(item)'>{{item}}</button>
                     </ng-container>
                 </mat-menu>
         </ng-container>

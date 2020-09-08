@@ -1,37 +1,38 @@
-<!-- <div class="container-fluid">
-
-    <div class="dashboard-table">
-        <app-dashboard-table
-            [color]='color'
-            [name]='name'
-            [additionalColumns]='additionalColumns'
-            [displayedColumns]='displayedColumns'
-            [ButtonColumnDirect]=true
-            [ButtonClearFilter]=true
-            (onClearFilter)='clearFilter()'
-            (onAddColumn)='addColumn($event)'
-            (onRemoveColumn)='removeColumn($event)'
-            (onPassPage)='goToPage($event)'>
-        </app-dashboard-table>
-    </div>
-     
-    <div class=''> 
-        <app-baza-table 
-            [visitors]='dataSource' 
-            [color]='color'
-            [filterData]='filterData'
-            [clearFilterData]='clearFilterData'
-            (filter)='filterController($event)'>
-        </app-baza-table>
+<!-- форма для додавання нового запису --> 
+<div class="add-item" *ngIf="isAddingItem">
+    <div class="back-add-item-element overflow-auto">
+        <div class="panel-add-item-element d-flex justify-content-between align-items-center sticky-top" [style.backgroundColor]='color'>
+            <div class="">Додати нового відвідвідувача</div>
+            <button
+                mat-icon-button 
+                matTooltip="Закрити" 
+                aria-label="Example icon-button with a heart icon" 
+                (click)='newElement("isAddingItem")'>
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div class="add-item-element overflow-auto">
+            <app-visitor
+                [color]='color'
+                (subVisitor)='submitVisitor($event)'
+                (delVisitor)='deleteVisitor($event)'>
+            </app-visitor>
+        </div> 
     </div> 
+</div>
 
-</div> -->
 <app-page-table
     [color]='color'
     [name]='name'
     [visitors]='visitors'
+    [visitor]='visitor'
     [model]='additionalColumns'
     [buttonColumnDirect]=true
     [buttonClearFilter]=true
-    (onColumnDirect)=columnDirect($event)>
+    [buttonAddVisitor]=true
+    (onAddVisitor)='newElement("isAddingItem")'
+    (getVisitor)='getVisitor($event)'
+    (onColumnDirect)=columnDirect($event)
+    (subVisitor)='submitVisitor($event)'
+    (delVisitor)='deleteVisitor($event)'>
 </app-page-table>

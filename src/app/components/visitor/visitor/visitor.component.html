@@ -1,0 +1,190 @@
+<form class="" [formGroup]="visitorForm"> 
+    <div class="container-fluid my-container">
+        <div class="row">
+            <div class="col-4"> 
+                <h2 class="pl-3" [style.color]="color">Особисті данні</h2>
+                <div class="data-group" [style.borderColor]="color">
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Прізвище</mat-label>
+                        <input type="text" matInput placeholder="{{'Last name'}}" formControlName="prizv">
+                        <mat-error *ngIf="!visitorForm.get('prizv').valid">
+                            {{'Please enter a last name'}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Ім'я</mat-label>
+                        <input type="text" matInput placeholder="{{'Name'}}" formControlName="name">
+                        <mat-error *ngIf="!visitorForm.get('name').valid">
+                            {{'Please enter a name'}}
+                        </mat-error>
+                    </mat-form-field>
+ 
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>По-батькові</mat-label>
+                        <input type="text" matInput placeholder="{{'pobatkovi'}}" formControlName="pobatkovi">
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Стать</mat-label>
+                        <mat-select placeholder="{{'gender'}}" formControlName="gender">
+                            <mat-option value='male'>male</mat-option>
+                            <mat-option value='female'>female</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="dashboard mt-3">
+                    <div class="btn">
+                        <button *ngIf='true' mat-raised-button class='vis-btn' [style.backgroundColor]="color" (click)='submitVisitor()'>прийняти заявку</button>
+                        <button *ngIf='true' mat-raised-button class='vis-btn' [style.backgroundColor]="color" (click)='deleteVisitor()'>видалити заявку</button>
+                    </div>
+
+                    <div class="inf" [style.color]="color" *ngIf='visitor'>
+                         Остання модифікація була зроблена: {{visitor.datelastcor}} ({{visitor.ins_user}})
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-4">
+                <h2 class="pl-3" [style.color]="color">Контактні дані</h2>
+                <div class="data-group" [style.borderColor]="color">
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Країна</mat-label>
+                        <mat-select placeholder="{{'Країна'}}" formControlName="countryid">
+                            <mat-select-filter 
+                                [placeholder]="'Пошук'" 
+                                [array]="countries" 
+                                [displayMember]="'teretory'" 
+                                (filteredReturn)="filteredCountries=$event">
+                            </mat-select-filter>
+                            <mat-option  
+                                *ngFor="let country of filteredCountries" 
+                                value='{{country.countryid}}'>
+                                {{country.teretory}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="!visitorForm.get('countryid').valid">
+                            {{'Будь ласка введіть країну'}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Регіон</mat-label>
+                        <mat-select placeholder="{{'Регіон'}}" formControlName="regionid">
+                            <mat-select-filter 
+                                [placeholder]="'Пошук'" 
+                                [array]="regions" 
+                                [displayMember]="'teretory'" 
+                                (filteredReturn)="filteredCountries=$event">
+                            </mat-select-filter>
+                            <mat-option  
+                                *ngFor="let region of filteredRegions" 
+                                value='{{region.regionid}}'>
+                                {{region.teretory}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="!visitorForm.get('regionid').valid">
+                            {{'Будь ласка введіть область'}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Місто</mat-label>
+                        <input 
+                            type="text" 
+                            matInput 
+                            [placeholder]="'Місто'" 
+                            formControlName="city" 
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option 
+                                *ngFor="let city of filteredCities" 
+                                value='{{city.teretory}}'>
+                                {{city.teretory}}
+                            </mat-option>
+                        </mat-autocomplete> 
+                        <mat-error *ngIf="!visitorForm.get('city').valid">
+                            {{'Будь ласка введіть місто'}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Електорнонна пошта</mat-label>
+                        <input type="email" matInput placeholder="{{'Email'}}" formControlName="email">
+                        <mat-error *ngIf="!visitorForm.get('email').valid">
+                            {{'Please enter a valid email address'}}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Мобільний телефон</mat-label>
+                        <input type="text" matInput placeholder="{{'Cellphone'}}" formControlName="cellphone">
+                        <mat-error *ngIf="!visitorForm.get('cellphone').valid">
+                            {{'Please enter a cellphone'}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="col-4"> 
+                <h2 class="pl-3" [style.color]="color" >Інша інформація</h2>
+                <div class="data-group" [style.borderColor]="color">
+                    
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Місце роботи</mat-label>
+                        <input type="text" matInput placeholder="{{'m_robotu'}}" formControlName="m_robotu">
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Посада</mat-label>
+                        <input type="text" matInput placeholder="{{'posada'}}" formControlName="posada">
+                    </mat-form-field>
+
+                    <mat-form-field class="form-group example-full-width" appearance="outline">
+                        <mat-label>Сфера діяльності</mat-label>
+                        <mat-select placeholder="{{'Сфера діяльності'}}" formControlName="sferadij">
+                            <mat-select-filter 
+                                [placeholder]="'Пошук'" 
+                                [array]="branches" 
+                                (filteredReturn)="filteredBranches=$event">
+                            </mat-select-filter>
+                            <mat-option  
+                                *ngFor="let branch of filteredBranches" 
+                                value='{{branch}}'>
+                                {{branch}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-expansion-panel class="expansion-panel" [style.borderColor]="borderColor">
+                        <mat-expansion-panel-header class="pl-2">
+                            <mat-panel-title class="">Потенційне відвідування</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <app-potvisited 
+                            [userExhibitions]="potvid" 
+                            (changeUserExhibitions)="potvid = $event">
+                        </app-potvisited>
+                    </mat-expansion-panel>  
+
+                    <mat-expansion-panel class="expansion-panel" [style.borderColor]="borderColor">
+                        <mat-expansion-panel-header class="pl-2">
+                            <mat-panel-title class="">Відвідані виставки</mat-panel-title> 
+                        </mat-expansion-panel-header>
+                        some text
+                        <!-- <ng-container *ngIf='element'>
+                            {{element.visited_exhib}}
+                        </ng-container> -->  
+                    </mat-expansion-panel>  
+           
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</form>
+<!-- <ng-container *ngIf='element'>
+    <span class="pl-3 pr-5">Запис створено {{this.element.datawnesenny}}. Остання модифікація була зроблена {{this.element.datelastcor}}</span>
+</ng-container> -->
+

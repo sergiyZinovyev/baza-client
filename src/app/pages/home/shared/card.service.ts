@@ -30,9 +30,10 @@ export class CardService {
     });
     return cardsArr
   }
-
+ 
   getListExhib(data: IList[]){
     console.log('list of exhibitions: ', data);
+    data.unshift({id: '', name: 'Всі виставки'});
     this.visexhib['list'] = data;
   }
 

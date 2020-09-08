@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-
+ 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AuthModule } from './pages/auth/auth.module';
@@ -13,8 +13,8 @@ import { MaterialModule } from './core/material/material.module';
 import { ServerApiModule } from './core/server-api';
 import { StorageModule } from './core/storage';
 import { GuardsModule } from './core/guards';
-import { LibModule } from './core/lib'
-
+import { LibModule } from './core/lib';
+ 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './ui/header/header.component';
 import { FooterComponent } from './ui/footer/footer.component';

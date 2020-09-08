@@ -15,6 +15,10 @@ import { Router } from '@angular/router';
 export class PageTableComponent implements OnInit {
 
   @Input() visitors: Visitor[] = [];
+  @Input() visitor: Visitor;
+
+  //@Input() countries: {}[];
+
   dataSource: Visitor[] = [];
 
   @Input() name: string;
@@ -22,11 +26,39 @@ export class PageTableComponent implements OnInit {
 
   @Input() model: string[];
 
-  @Input() buttonColumnDirect: boolean = true;
-  @Input() buttonClearFilter: boolean = true;
+  @Input() buttonClearFilter: boolean = false;
+  @Input() buttonColumnDirect: boolean = false;
+  
+
+  private _buttonAddVisitor: boolean = false;
+  @Input() public get buttonAddVisitor(): boolean {
+    return this._buttonAddVisitor;
+  }
+  public set buttonAddVisitor(value: boolean) {
+    this._buttonAddVisitor = value;
+    this.onAddVisitor.emit(true)
+  }
+
+  @Output() onAddVisitor = new EventEmitter<boolean>();
+
 
   @Output() onColumnDirect = new EventEmitter<object>();
   
+
+  @Output() getVisitor = new EventEmitter<number>();
+
+  @Output() delVisitor = new EventEmitter<number>();
+  @Output() subVisitor = new EventEmitter<any>();
+  
+  // private _dashboard: Object = { btnAddVisitor: true, btnClearFilter: true };
+  // public get dashboard(): Object {
+  //   return this._dashboard;
+  // }
+  // public set dashboard(value: Object) {
+  //   this._dashboard = value;
+  //   console.log('dashboard: ', JSON.stringify(this._dashboard))
+  // }
+
 
   displayedColumns: string[];
 
@@ -54,17 +86,13 @@ export class PageTableComponent implements OnInit {
       this.additionalColumns = this.setAdditionalColumns(this.displayedColumns)
     }
   }
-
+ 
   ngOnInit(): void {
-    // this.visitorsStorageService.getVisitos.subscribe((vis: Visitor[]) => {
-    //   this.modalsService.spinnerClose();
-    //   this.clearFilter();
-    //   this.visitors = Object.assign([], vis);
-    //   this.dataSource = this.visitors;
-    //   this.displayedColumns = Object.getOwnPropertyNames(this.visitors[0]);
-    //   this.displayedColumns.splice(this.libService.checkArrIdVal(this.displayedColumns, 'regnum'), 1);
-    //   this.additionalColumns = this.setAdditionalColumns(this.displayedColumns)
-    // })
+  }
+ 
+  idVisitor(id: number){
+    //console.log('id visitor: ', id);
+    this.getVisitor.emit(id)
   }
 
   setAdditionalColumns(displayedColumns: string[]): string[]{
@@ -98,6 +126,20 @@ export class PageTableComponent implements OnInit {
   goToPage(page: string){
     console.log('page: ',page);
     this.router.navigate([`visitors/${page}`]);
+  }
+
+  submitVisitor(eventData){
+    //console.log('sub:',eventData)
+    this.subVisitor.emit(eventData)
+  }
+
+  deleteVisitor(eventData){
+    //console.log('del:',eventData)
+    this.delVisitor.emit(eventData)
+  }
+
+  addVisitor(){
+    this.onAddVisitor.emit(true)
   }
 
 }
